@@ -8,6 +8,7 @@ import axiosInstance from "../../utils/axiosInstence";
 import { API_PATHS } from "../../utils/apiPaths";
 import { UserContext } from "../../context/userContext";
 import uploadImage from "../../utils/uploadImage";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -54,12 +55,15 @@ const Signup = () => {
         profileImageUrl,
       });
 
-      const { token, user } = response.data;
+      const { token, user, success, message } = response.data;
 
       if (token) {
         localStorage.setItem("token", token);
         updateUser(user);
         navigate("/dashboard");
+      }
+      if (success) {
+        toast.success(`${message} ${user.fullname}`);
       }
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -72,8 +76,10 @@ const Signup = () => {
   return (
     <AuthLayout>
       <div className='lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center'>
-        <h3 className='text-xl font-semibold text-black'>Create an Account</h3>
-        <p className='text-xs text-slate-700 mt-[5px] mb-6'>
+        <h3 className='text-xl md:text-3xl font-semibold text-black'>
+          Create an Account
+        </h3>
+        <p className='text-xs md:text-lg text-slate-700 mt-[5px] mb-15'>
           Join us today by entering your details below.
         </p>
 
@@ -83,7 +89,7 @@ const Signup = () => {
             setImage={setProfilePic}
           />
 
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4'>
             <Input
               value={fullname}
               onChange={({ target }) => setFullName(target.value)}
@@ -100,7 +106,7 @@ const Signup = () => {
               type='text'
             />
 
-            <div className='col-span-2'>
+            <div className='md:col-span-2'>
               <Input
                 value={password}
                 onChange={({ target }) => setPassword(target.value)}

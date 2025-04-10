@@ -1,5 +1,5 @@
 import React from "react";
-
+import brandLogo from "../../assets/Images/Brand_logo.png";
 import CARD_2 from "../../assets/Images/card2.png";
 import { LuTrendingUpDown } from "react-icons/lu";
 
@@ -7,7 +7,13 @@ const AuthLayout = ({ children }) => {
   return (
     <div className='flex'>
       <div className='w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12'>
-        <h2 className='text-lg font-medium text-black'>Expense Tracker</h2>
+        <div className='flex items-center'>
+          <img
+            src={brandLogo}
+            className='w-20 h-20'
+          />
+          <h2 className='text-4xl font-semibold text-black'>LedgerX</h2>
+        </div>
         {children}
       </div>
 

@@ -25,6 +25,8 @@ const registerUser = async (req, res) => {
       profileImageUrl,
     });
     res.status(201).json({
+      success: true,
+      message: "Welcome",
       id: user._id,
       user,
       token: generateToken(user._id),
@@ -52,6 +54,8 @@ const loginUser = async (req, res) => {
     }
 
     res.status(200).json({
+      success: true,
+      message: "Welcome",
       id: user._id,
       user,
       token: generateToken(user._id),

@@ -6,6 +6,7 @@ import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstence";
 import { API_PATHS } from "../../utils/apiPaths";
 import { UserContext } from "../../context/userContext.jsx";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -33,12 +34,17 @@ const Login = () => {
         email,
         password,
       });
-      const { token, user } = response.data;
+
+      const { token, user, success, message } = response.data;
 
       if (token) {
         localStorage.setItem("token", token);
         updateUser(user);
         navigate("/dashboard");
+      }
+
+      if (success) {
+        toast.success(`${message} ${user.fullname}`);
       }
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -51,9 +57,11 @@ const Login = () => {
   return (
     <AuthLayout>
       <div className='lg:w-[70%] h-3/4 md:h-full flex flex-col justify-center'>
-        <h3 className='text-xl font-semibold text-black'>Welcome Back</h3>
-        <p className='text-xs text-slate-700 mt-[5px] mb-6'>
-          Please enter your details to log in
+        <h3 className='text-xl md:text-3xl font-semibold text-black'>
+          Welcome Back
+        </h3>
+        <p className='text-xs md:text-lg text-slate-700 mt-[5px] mb-15'>
+          Please enter your details to log in.
         </p>
 
         <form onSubmit={handleLogin}>
