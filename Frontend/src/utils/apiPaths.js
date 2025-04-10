@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:3000";
+export const BASE_URL = "https://expense-dashboard-backend-bay.vercel.app/";
 
 // utils/apiPaths.js
 export const API_PATHS = {
