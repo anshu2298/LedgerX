@@ -5,8 +5,8 @@ const {
   getUserInfo,
   loginUser,
 } = require("../controllers/authController.js");
-const uploads = require("../middleware/uploadMiddleware.js");
-
+const upload = require("../config/multer.js");
+const cloudinary = require("cloudinary");
 const router = express.Router();
 
 router.post("/register", registerUser);
@@ -15,15 +15,17 @@ router.post("/login", loginUser);
 
 router.get("/getUser", protect, getUserInfo);
 
-router.post("/upload-image", uploads.single("image"), (req, res) => {
+router.post("/upload-image", upload.single("image"), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({
       message: "No file Uploaded",
     });
   }
-  const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${
-    req.file.filename
-  }`;
+  const image = req.file;
+  let result = await cloudinary.uploader.upload(image.path, {
+    resource_type: "image",
+  });
+  const imageUrl = result.secure_url;
   res.status(200).json({
     imageUrl,
   });

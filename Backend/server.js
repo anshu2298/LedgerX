@@ -4,7 +4,7 @@ const express = require("express");
 const connectDB = require("./config/db.js");
 const cors = require("cors");
 const path = require("path");
-const cloudinary = require("cloudinary").v2;
+const connectCloudinary = require("./config/cloudinary.js");
 const port = process.env.PORT;
 const url = process.env.DB_URI;
 const authRouter = require("./routes/authRoutes.js");
@@ -12,11 +12,6 @@ const incomeRouter = require("./routes/incomeRoutes.js");
 const expenseRouter = require("./routes/expenseRoutes.js");
 const dashboardRouter = require("./routes/dashboardRoutes.js");
 const app = express();
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_API_SECRET,
-});
 
 app.use(
   cors({
@@ -42,6 +37,7 @@ const start = async () => {
     connectDB(url).then(() => {
       console.log("Connected to DB....");
     });
+    await connectCloudinary();
     app.listen(port, console.log(`Server is running on port: ${port}...`));
   } catch (error) {
     console.log(error);
