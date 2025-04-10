@@ -23,6 +23,10 @@ app.use(
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Api is working");
+});
+
 app.use("/api/v1/auth", authRouter);
 
 app.use("/api/v1/income", incomeRouter);
@@ -32,6 +36,7 @@ app.use("/api/v1/expense", expenseRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 const start = async () => {
   try {
     connectDB(url).then(() => {
